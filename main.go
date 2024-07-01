@@ -11,7 +11,10 @@ import (
 )
 
 func main() {
-	var PORT = ":8080"
+	servicePort := os.Getenv("PORT")
+	if servicePort == "" {
+		servicePort = "8080"
+	}
 
 	pgHost := os.Getenv("PG_HOST")
 	pgUser := os.Getenv("PG_USER")
@@ -37,5 +40,5 @@ func main() {
 		panic(err)
 	}
 
-	routers.SetupRouter(db).Run(PORT)
+	routers.SetupRouter(db).Run(servicePort)
 }
