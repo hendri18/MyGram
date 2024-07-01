@@ -40,5 +40,5 @@ func main() {
 		panic(err)
 	}
 
-	routers.SetupRouter(db).Run(servicePort)
+	routers.SetupRouter(db).Run(":" + servicePort)
 }
