@@ -24,7 +24,7 @@ func (p *PhotoRepo) GetPhotoById(id uint64) (*models.Photo, error) {
 	photo := &models.Photo{}
 	result := p.DB.Debug().Where("id = ?", id).Find(&photo)
 	err := result.Error
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("photo not found")
 	}
 	return photo, err
@@ -46,7 +46,7 @@ func (p *PhotoRepo) UpdatePhoto(id uint64, photo *models.Photo) (*models.Photo, 
 		}).Scan(&photo)
 
 	err := result.Error
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("photo not found")
 	}
 	return photo, err
@@ -59,7 +59,7 @@ func (p *PhotoRepo) DeletePhoto(id uint64) error {
 
 	err := result.Error
 
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("photo not found")
 	}
 	return err

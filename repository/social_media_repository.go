@@ -24,7 +24,7 @@ func (s *SocialMediaRepo) GetSocialMediaById(id uint64) (*models.SocialMedia, er
 	socialMedia := &models.SocialMedia{}
 	result := s.DB.Debug().Where("id = ?", id).Find(&socialMedia)
 	err := result.Error
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("social media not found")
 	}
 	return socialMedia, err
@@ -45,7 +45,7 @@ func (s *SocialMediaRepo) UpdateSocialMedia(id uint64, socialMedia *models.Socia
 		}).Scan(&socialMedia)
 
 	err := result.Error
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("social media not found")
 	}
 	return socialMedia, err
@@ -58,7 +58,7 @@ func (s *SocialMediaRepo) DeleteSocialMedia(id uint64) error {
 
 	err := result.Error
 
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("social media not found")
 	}
 	return err

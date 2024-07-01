@@ -24,7 +24,7 @@ func (u *UserRepo) GetUserByEmail(email string) (*models.User, error) {
 
 	err := result.Error
 
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("user not found")
 	}
 
@@ -47,7 +47,7 @@ func (u *UserRepo) UpdateUser(id uint64, user *models.User) (*models.User, error
 		}).Scan(&user)
 
 	err := result.Error
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("user not found")
 	}
 	return user, err
@@ -60,7 +60,7 @@ func (u *UserRepo) DeleteUser(id uint64) error {
 
 	err := result.Error
 
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("user not found")
 	}
 	return err

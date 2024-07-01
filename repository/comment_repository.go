@@ -26,7 +26,7 @@ func (c *CommentRepo) GetCommentById(id uint64) (*models.Comment, error) {
 	comment := &models.Comment{}
 	result := c.DB.Debug().Where("id = ?", id).Find(&comment)
 	err := result.Error
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("comment not found")
 	}
 	return comment, err
@@ -46,7 +46,7 @@ func (c *CommentRepo) UpdateComment(id uint64, comment *models.Comment) (*models
 		}).Scan(&comment)
 
 	err := result.Error
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("comment not found")
 	}
 	return comment, err
@@ -59,7 +59,7 @@ func (c *CommentRepo) DeleteComment(id uint64) error {
 
 	err := result.Error
 
-	if result.RowsAffected < 1 {
+	if err == nil && result.RowsAffected < 1 {
 		err = errors.New("comment not found")
 	}
 	return err
