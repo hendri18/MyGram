@@ -40,6 +40,7 @@ func (u *UserHandler) Login(ctx *gin.Context) {
 			"status":  http.StatusInternalServerError,
 			"message": emptyMessage,
 		})
+		return
 	}
 
 	user, err := u.UserService.GetByEmail(userLogin.Email)
