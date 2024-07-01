@@ -26,6 +26,22 @@ func (u *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 
+	emptyMessage := ""
+	if userLogin.Email == "" {
+		emptyMessage += "Your email is required"
+	}
+
+	if userLogin.Password == "" {
+		emptyMessage += " Your password is required"
+	}
+
+	if emptyMessage != "" {
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"status":  http.StatusInternalServerError,
+			"message": emptyMessage,
+		})
+	}
+
 	user, err := u.UserService.GetByEmail(userLogin.Email)
 
 	if err != nil {
